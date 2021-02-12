@@ -101,6 +101,18 @@
         display: none;
       }
 
+      .clickable{
+        color: blue;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+
+      #updatebutton{
+        position: absolute;
+        bottom: 2px;
+        right: 2px;
+      }
+
       #credit{
         position: absolute;
         top: 2px;
@@ -111,7 +123,8 @@
     </style>
   </head>
   <body onload="webstart()">
-    <h1>Age of Empires II: Definitive Edition</h1>
+    <div id="page">
+    <h1>Age of Empires II: Definitive Edition <span class="clickable" onclick="help()">(?)</span></h1>
     <h2>Constant unit production calculator</h2>
     <span id="credit">@Zoaklen</span>
     <hr>
@@ -126,11 +139,11 @@
           <col style="width: 15%">
         </colgroup>
         <thead>
-          <th>Unit</th>
-          <th>Number of facilities</th>
-          <th>Wood</th>
-          <th>Food</th>
-          <th>Gold</th>
+          <th>Unit <span class="clickable" onclick="alert('What unit you want to generate?')">(?)</span></th>
+          <th>Number of facilities <span class="clickable" onclick="alert('How many barracks/archery range/etc are you trying to keep busy at the same time?')">(?)</span></th>
+          <th>Wood <span class="clickable" onclick="alert('How many villagers on wood you gonna need to have')">(?)</span></th>
+          <th>Food <span class="clickable" onclick="alert('How many villagers on farms you gonna need to have')">(?)</span></th>
+          <th>Gold <span class="clickable" onclick="alert('How many villagers on gold mines you gonna need to have')">(?)</span></th>
           <th>Remove</th>
         </thead>
         <tbody id="unitlist">
@@ -465,6 +478,7 @@
       </select>
     </div>
 
+
     <div class="jshelper">
       <table>
         <tr id="unitrow">
@@ -574,6 +588,11 @@
       </tr>
       </table>
     </div>
+    </div>
+
+    <a id="updatebutton" href="https://zoaklen.github.io/aoe2/?update" download>
+      <button type="button" name="button">Update</button>
+    </a>
 
   </body>
   <script type="text/javascript">
@@ -1250,6 +1269,14 @@
 
     function webstart()
     {
+      if(window.location.href.includes("?update"))
+      {
+        document.getElementById('page').style = "display: none";
+        document.getElementById('updatebutton').style = "bottom: 50%;right: 50%;";
+        document.getElementById('updatebutton').href = "index.html";
+        document.getElementById('updatebutton').setAttribute('download', Date.now());
+        return;
+      }
       addunit();
       updateciv();
       updateteam();
@@ -1322,6 +1349,11 @@
     function getage()
     {
       return document.getElementById('age').selectedIndex;
+    }
+
+    function help()
+    {
+      alert("Hello.\n\nThis calculator was based off of https://grishrl.github.io. The problem is that it does not include any DLC civilizations nor upgrades, so I decided to remake it.\n\nThe entire code of this calculator is inside this HTML file, this means you can Ctrl+S to save this page and use it even offline in your PC by opening the downloaded HTML file.\nWhen using on your PC an 'Update' button is going to appear in the bottom-right corner, you can use it to update the page to the latest version when you have internet connection.\n\n An important thing to remember is that for 'Food' this calculator refers to 'Farms', sheeps and boars have a higher gather rate so you need ~15% less villagers on food if your food income is from boars or sheeps.");
     }
 
   </script>
