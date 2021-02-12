@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Age of Empires II: Definitive Edition Calculator</title>
+    <style>
+          html, body, div, span, applet, object, iframe,
+      h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+      a, abbr, acronym, address, big, cite, code,
+      del, dfn, em, img, ins, kbd, q, s, samp,
+      small, strike, strong, sub, sup, tt, var,
+      b, u, i, center,
+      dl, dt, dd, ol, ul, li,
+      fieldset, form, label, legend,
+      table, caption, tbody, tfoot, thead, tr, th, td,
+      article, aside, canvas, details, embed,
+      figure, figcaption, footer, header, hgroup,
+      menu, nav, output, ruby, section, summary,
+      time, mark, audio, video {
+      	margin: 0;
+      	padding: 0;
+      	border: 0;
+      	font-size: 100%;
+      	font: inherit;
+      	vertical-align: baseline;
+        font-family: sans-serif;
+      }
+      /* HTML5 display-role reset for older browsers */
+      article, aside, details, figcaption, figure,
+      footer, header, hgroup, menu, nav, section {
+      	display: block;
+      }
+      body {
+      	line-height: 1;
+      }
+      ol, ul {
+      	list-style: none;
+      }
+      blockquote, q {
+      	quotes: none;
+      }
+      blockquote:before, blockquote:after,
+      q:before, q:after {
+      	content: '';
+      	content: none;
+      }
+      table {
+      	border-collapse: collapse;
+      	border-spacing: 0;
+      }
+
+      hr{
+        border: 0px solid #222;
+        border-top-width: 1px;
+        margin: 0px 0px 8px 0px;
+      }
+
+      tr, thead{
+        border-bottom: 1px solid #ccc;
+      }
+
+      tfoot{
+        border-top: 1px solid #ccc;
+      }
+
+      tr:last-of-type{
+        border-bottom: 0px;
+      }
+
+      table{
+        width: 100%;
+        table-layout: fixed;
+      }
+
+      table, tr, td, th, thead, tfoot{
+        padding: 8px;
+        text-align: left;
+        font-size: 14px;
+      }
+
+      h1{
+        font-size: 24px;
+      }
+
+      h2{
+        font-size: 20px;
+      }
+
+      input[type=number]{
+        width: 32px;
+      }
+
+      .tableholder
+      {
+        margin:auto;
+        width: calc(100% - 180px);
+        padding: 10px;
+      }
+
+      .jshelper{
+        display: none;
+      }
+
+      #credit{
+        position: absolute;
+        top: 2px;
+        right: 2px;
+        color: #fff;
+      }
+
+    </style>
+  </head>
+  <body onload="webstart()">
+    <h1>Age of Empires II: Definitive Edition</h1>
+    <h2>Constant unit production calculator</h2>
+    <span id="credit">@Zoaklen</span>
+    <hr>
+    <div class="tableholder">
+      <table>
+        <colgroup>
+          <col style="width: 15%">
+          <col style="width: 22%">
+          <col style="width: 10%">
+          <col style="width: 10%">
+          <col style="width: 10%">
+          <col style="width: 15%">
+        </colgroup>
+        <thead>
+          <th>Unit</th>
+          <th>Number of facilities</th>
+          <th>Wood</th>
+          <th>Food</th>
+          <th>Gold</th>
+          <th>Remove</th>
+        </thead>
+        <tbody id="unitlist">
+        </tbody>
+        <tfoot id="total">
+          <td></td>
+          <td style="text-align:right">Total:</td>
+          <td id="wood">0</td>
+          <td id="food">0</td>
+          <td id="gold">0</td>
+          <td></td>
+        </tfoot>
+        <tfoot id="farm">
+          <td></td>
+          <td style="text-align:right">Farm Reseeding:</td>
+          <td id="wood">0</td>
+          <td id="food">0</td>
+          <td id="gold">0</td>
+          <td></td>
+        </tfoot>
+
+      </table>
+      <button type="button" name="add" onclick="addunit()">Add Row</button>
+      <br><br><br><br><br><br><br><br>
+      <label for="civ">Civilization:</label>
+      <select onchange="updateciv()" id="civ">
+        <option value="Generic">Generic</option>
+        <option value="Aztecs">Aztecs</option>
+        <option value="Berbers">Berbers</option>
+        <option value="Britons">Britons</option>
+        <option value="Bulgarians">Bulgarians</option>
+        <option value="Burgundians">Burgundians</option>
+        <option value="Burmese">Burmese</option>
+        <option value="Byzantines">Byzantines</option>
+        <option value="Celts">Celts</option>
+        <option value="Chinese">Chinese</option>
+        <option value="Cumans">Cumans</option>
+        <option value="Ethiopians">Ethiopians</option>
+        <option value="Franks">Franks</option>
+        <option value="Goths">Goths</option>
+        <option value="Huns">Huns</option>
+        <option value="Incas">Incas</option>
+        <option value="Indians">Indians</option>
+        <option value="Italians">Italians</option>
+        <option value="Japanese">Japanese</option>
+        <option value="Khmer">Khmer</option>
+        <option value="Koreans">Koreans</option>
+        <option value="Lithuanians">Lithuanians</option>
+        <option value="Magyars">Magyars</option>
+        <option value="Malay">Malay</option>
+        <option value="Malians">Malians</option>
+        <option value="Mayans">Mayans</option>
+        <option value="Mongols">Mongols</option>
+        <option value="Persians">Persians</option>
+        <option value="Portuguese">Portuguese</option>
+        <option value="Saracens">Saracens</option>
+        <option value="Sicilians">Sicilians</option>
+        <option value="Slavs">Slavs</option>
+        <option value="Spanish">Spanish</option>
+        <option value="Tatars">Tatars</option>
+        <option value="Teutons">Teutons</option>
+        <option value="Turks">Turks</option>
+        <option value="Vietnamese">Vietnamese</option>
+        <option value="Vikings">Vikings</option>
+      </select>
+      <div id="civupgrades"></div>
+      <div id="genupgrades">
+        <input type="checkbox" id="conscription" onchange="updateupgrades()"><span>Conscription</span>
+        <br>
+        <input type="checkbox" id="doublebitaxe" onchange="updateupgrades()"><span>Double-Bit Axe</span>
+        <input type="checkbox" id="bowsaw" onchange="updateupgrades()"><span>Bow Saw</span>
+        <input type="checkbox" id="twomansaw" onchange="updateupgrades()"><span>Two-Man Saw</span>
+        <br>
+        <input type="checkbox" id="horsecollar" onchange="updateupgrades()"><span>Horse Collar</span>
+        <input type="checkbox" id="heavyplow" onchange="updateupgrades()"><span>Heavy Plow</span>
+        <input type="checkbox" id="croprotation" onchange="updateupgrades()"><span>Crop Rotation</span>
+        <br>
+        <input type="checkbox" id="goldmining" onchange="updateupgrades()"><span>Gold Mining</span>
+        <input type="checkbox" id="goldshaftmining" onchange="updateupgrades()"><span>Gold Shaft Mining</span>
+      </div>
+      <div id="agediv">
+        <label for="age">Age:</label>
+        <select onchange="updateallcosts()" id="age">
+          <option value="dark">Dark Age</option>
+          <option value="feudal">Feudal Age</option>
+          <option value="castle">Castle Age</option>
+          <option value="imperial">Imperial Age</option>
+        </select>
+      </div>
+
+      <br><br>
+      <label for="civ2">Team Civilizations:</label>
+      <select onchange="updateteam()" id="civ2">
+        <option value="Generic"></option>
+        <option value="Aztecs">Aztecs</option>
+        <option value="Berbers">Berbers</option>
+        <option value="Britons">Britons</option>
+        <option value="Bulgarians">Bulgarians</option>
+        <option value="Burgundians">Burgundians</option>
+        <option value="Burmese">Burmese</option>
+        <option value="Byzantines">Byzantines</option>
+        <option value="Celts">Celts</option>
+        <option value="Chinese">Chinese</option>
+        <option value="Cumans">Cumans</option>
+        <option value="Ethiopians">Ethiopians</option>
+        <option value="Franks">Franks</option>
+        <option value="Goths">Goths</option>
+        <option value="Huns">Huns</option>
+        <option value="Incas">Incas</option>
+        <option value="Indians">Indians</option>
+        <option value="Italians">Italians</option>
+        <option value="Japanese">Japanese</option>
+        <option value="Khmer">Khmer</option>
+        <option value="Koreans">Koreans</option>
+        <option value="Lithuanians">Lithuanians</option>
+        <option value="Magyars">Magyars</option>
+        <option value="Malay">Malay</option>
+        <option value="Malians">Malians</option>
+        <option value="Mayans">Mayans</option>
+        <option value="Mongols">Mongols</option>
+        <option value="Persians">Persians</option>
+        <option value="Portuguese">Portuguese</option>
+        <option value="Saracens">Saracens</option>
+        <option value="Sicilians">Sicilians</option>
+        <option value="Slavs">Slavs</option>
+        <option value="Spanish">Spanish</option>
+        <option value="Tatars">Tatars</option>
+        <option value="Teutons">Teutons</option>
+        <option value="Turks">Turks</option>
+        <option value="Vietnamese">Vietnamese</option>
+        <option value="Vikings">Vikings</option>
+      </select>
+      <select onchange="updateteam()" id="civ3">
+        <option value="Generic"></option>
+        <option value="Aztecs">Aztecs</option>
+        <option value="Berbers">Berbers</option>
+        <option value="Britons">Britons</option>
+        <option value="Bulgarians">Bulgarians</option>
+        <option value="Burgundians">Burgundians</option>
+        <option value="Burmese">Burmese</option>
+        <option value="Byzantines">Byzantines</option>
+        <option value="Celts">Celts</option>
+        <option value="Chinese">Chinese</option>
+        <option value="Cumans">Cumans</option>
+        <option value="Ethiopians">Ethiopians</option>
+        <option value="Franks">Franks</option>
+        <option value="Goths">Goths</option>
+        <option value="Huns">Huns</option>
+        <option value="Incas">Incas</option>
+        <option value="Indians">Indians</option>
+        <option value="Italians">Italians</option>
+        <option value="Japanese">Japanese</option>
+        <option value="Khmer">Khmer</option>
+        <option value="Koreans">Koreans</option>
+        <option value="Lithuanians">Lithuanians</option>
+        <option value="Magyars">Magyars</option>
+        <option value="Malay">Malay</option>
+        <option value="Malians">Malians</option>
+        <option value="Mayans">Mayans</option>
+        <option value="Mongols">Mongols</option>
+        <option value="Persians">Persians</option>
+        <option value="Portuguese">Portuguese</option>
+        <option value="Saracens">Saracens</option>
+        <option value="Sicilians">Sicilians</option>
+        <option value="Slavs">Slavs</option>
+        <option value="Spanish">Spanish</option>
+        <option value="Tatars">Tatars</option>
+        <option value="Teutons">Teutons</option>
+        <option value="Turks">Turks</option>
+        <option value="Vietnamese">Vietnamese</option>
+        <option value="Vikings">Vikings</option>
+      </select>
+      <select onchange="updateteam()" id="civ4">
+        <option value="Generic"></option>
+        <option value="Aztecs">Aztecs</option>
+        <option value="Berbers">Berbers</option>
+        <option value="Britons">Britons</option>
+        <option value="Bulgarians">Bulgarians</option>
+        <option value="Burgundians">Burgundians</option>
+        <option value="Burmese">Burmese</option>
+        <option value="Byzantines">Byzantines</option>
+        <option value="Celts">Celts</option>
+        <option value="Chinese">Chinese</option>
+        <option value="Cumans">Cumans</option>
+        <option value="Ethiopians">Ethiopians</option>
+        <option value="Franks">Franks</option>
+        <option value="Goths">Goths</option>
+        <option value="Huns">Huns</option>
+        <option value="Incas">Incas</option>
+        <option value="Indians">Indians</option>
+        <option value="Italians">Italians</option>
+        <option value="Japanese">Japanese</option>
+        <option value="Khmer">Khmer</option>
+        <option value="Koreans">Koreans</option>
+        <option value="Lithuanians">Lithuanians</option>
+        <option value="Magyars">Magyars</option>
+        <option value="Malay">Malay</option>
+        <option value="Malians">Malians</option>
+        <option value="Mayans">Mayans</option>
+        <option value="Mongols">Mongols</option>
+        <option value="Persians">Persians</option>
+        <option value="Portuguese">Portuguese</option>
+        <option value="Saracens">Saracens</option>
+        <option value="Sicilians">Sicilians</option>
+        <option value="Slavs">Slavs</option>
+        <option value="Spanish">Spanish</option>
+        <option value="Tatars">Tatars</option>
+        <option value="Teutons">Teutons</option>
+        <option value="Turks">Turks</option>
+        <option value="Vietnamese">Vietnamese</option>
+        <option value="Vikings">Vikings</option>
+      </select>
+      <select onchange="updateteam()" id="civ5">
+        <option value="Generic"></option>
+        <option value="Aztecs">Aztecs</option>
+        <option value="Berbers">Berbers</option>
+        <option value="Britons">Britons</option>
+        <option value="Bulgarians">Bulgarians</option>
+        <option value="Burgundians">Burgundians</option>
+        <option value="Burmese">Burmese</option>
+        <option value="Byzantines">Byzantines</option>
+        <option value="Celts">Celts</option>
+        <option value="Chinese">Chinese</option>
+        <option value="Cumans">Cumans</option>
+        <option value="Ethiopians">Ethiopians</option>
+        <option value="Franks">Franks</option>
+        <option value="Goths">Goths</option>
+        <option value="Huns">Huns</option>
+        <option value="Incas">Incas</option>
+        <option value="Indians">Indians</option>
+        <option value="Italians">Italians</option>
+        <option value="Japanese">Japanese</option>
+        <option value="Khmer">Khmer</option>
+        <option value="Koreans">Koreans</option>
+        <option value="Lithuanians">Lithuanians</option>
+        <option value="Magyars">Magyars</option>
+        <option value="Malay">Malay</option>
+        <option value="Malians">Malians</option>
+        <option value="Mayans">Mayans</option>
+        <option value="Mongols">Mongols</option>
+        <option value="Persians">Persians</option>
+        <option value="Portuguese">Portuguese</option>
+        <option value="Saracens">Saracens</option>
+        <option value="Sicilians">Sicilians</option>
+        <option value="Slavs">Slavs</option>
+        <option value="Spanish">Spanish</option>
+        <option value="Tatars">Tatars</option>
+        <option value="Teutons">Teutons</option>
+        <option value="Turks">Turks</option>
+        <option value="Vietnamese">Vietnamese</option>
+        <option value="Vikings">Vikings</option>
+      </select>
+      <select onchange="updateteam()" id="civ6">
+        <option value="Generic"></option>
+        <option value="Aztecs">Aztecs</option>
+        <option value="Berbers">Berbers</option>
+        <option value="Britons">Britons</option>
+        <option value="Bulgarians">Bulgarians</option>
+        <option value="Burgundians">Burgundians</option>
+        <option value="Burmese">Burmese</option>
+        <option value="Byzantines">Byzantines</option>
+        <option value="Celts">Celts</option>
+        <option value="Chinese">Chinese</option>
+        <option value="Cumans">Cumans</option>
+        <option value="Ethiopians">Ethiopians</option>
+        <option value="Franks">Franks</option>
+        <option value="Goths">Goths</option>
+        <option value="Huns">Huns</option>
+        <option value="Incas">Incas</option>
+        <option value="Indians">Indians</option>
+        <option value="Italians">Italians</option>
+        <option value="Japanese">Japanese</option>
+        <option value="Khmer">Khmer</option>
+        <option value="Koreans">Koreans</option>
+        <option value="Lithuanians">Lithuanians</option>
+        <option value="Magyars">Magyars</option>
+        <option value="Malay">Malay</option>
+        <option value="Malians">Malians</option>
+        <option value="Mayans">Mayans</option>
+        <option value="Mongols">Mongols</option>
+        <option value="Persians">Persians</option>
+        <option value="Portuguese">Portuguese</option>
+        <option value="Saracens">Saracens</option>
+        <option value="Sicilians">Sicilians</option>
+        <option value="Slavs">Slavs</option>
+        <option value="Spanish">Spanish</option>
+        <option value="Tatars">Tatars</option>
+        <option value="Teutons">Teutons</option>
+        <option value="Turks">Turks</option>
+        <option value="Vietnamese">Vietnamese</option>
+        <option value="Vikings">Vikings</option>
+      </select>
+      <select onchange="updateteam()" id="civ7">
+        <option value="Generic"></option>
+        <option value="Aztecs">Aztecs</option>
+        <option value="Berbers">Berbers</option>
+        <option value="Britons">Britons</option>
+        <option value="Bulgarians">Bulgarians</option>
+        <option value="Burgundians">Burgundians</option>
+        <option value="Burmese">Burmese</option>
+        <option value="Byzantines">Byzantines</option>
+        <option value="Celts">Celts</option>
+        <option value="Chinese">Chinese</option>
+        <option value="Cumans">Cumans</option>
+        <option value="Ethiopians">Ethiopians</option>
+        <option value="Franks">Franks</option>
+        <option value="Goths">Goths</option>
+        <option value="Huns">Huns</option>
+        <option value="Incas">Incas</option>
+        <option value="Indians">Indians</option>
+        <option value="Italians">Italians</option>
+        <option value="Japanese">Japanese</option>
+        <option value="Khmer">Khmer</option>
+        <option value="Koreans">Koreans</option>
+        <option value="Lithuanians">Lithuanians</option>
+        <option value="Magyars">Magyars</option>
+        <option value="Malay">Malay</option>
+        <option value="Malians">Malians</option>
+        <option value="Mayans">Mayans</option>
+        <option value="Mongols">Mongols</option>
+        <option value="Persians">Persians</option>
+        <option value="Portuguese">Portuguese</option>
+        <option value="Saracens">Saracens</option>
+        <option value="Sicilians">Sicilians</option>
+        <option value="Slavs">Slavs</option>
+        <option value="Spanish">Spanish</option>
+        <option value="Tatars">Tatars</option>
+        <option value="Teutons">Teutons</option>
+        <option value="Turks">Turks</option>
+        <option value="Vietnamese">Vietnamese</option>
+        <option value="Vikings">Vikings</option>
+      </select>
+    </div>
+
+    <div class="jshelper">
+      <table>
+        <tr id="unitrow">
+        <td>
+          <select name="units" id="units" onchange="onupdateunit(this.closest('tr').id)">
+            <optgroup label="Town Center">
+              <option value="villager">Villager</option>
+              <option value="flemishmilitia">Flesmish Militia</option>
+            </optgroup>
+            <optgroup label="Barracks">
+              <option value="militia">Militia</option>
+              <option value="spearman">Spearman</option>
+              <option value="eagle">Eagle Warrior</option>
+              <option value="condottiero">Condottiero</option>
+              <option value="huskarlb">Huskarl (Barracks)</option>
+            </optgroup>
+            <optgroup label="Archery Range">
+              <option value="archer">Archer</option>
+              <option value="skirmisher">Skirmisher</option>
+              <option value="cavalryarcher">Cavalry Archer</option>
+              <option value="handcannoneer">Hand Cannoneer</option>
+              <option value="genitour">Genitour</option>
+              <option value="slinger">Slinger</option>
+            </optgroup>
+            <optgroup label="Stable">
+              <option value="scout">Scout</option>
+              <option value="knight">Knight</option>
+              <option value="camel">Camel Rider</option>
+              <option value="battleelephant">Battle Elephant</option>
+              <option value="steppelancer">Steppe Lancer</option>
+              <option value="tarkanb">Tarkan (Stable)</option>
+            </optgroup>
+            <optgroup label="Siege Workshop">
+              <option value="ram">Ram</option>
+              <option value="mangonel">Mangonel</option>
+              <option value="scorpion">Scorpion</option>
+              <option value="bombardcannon">Bombard Cannon</option>
+              <option value="siegetower">Siege Tower</option>
+            </optgroup>
+            <optgroup label="Dock">
+              <option value="fishingship">Fishing Ship</option>
+              <option value="transportship">Transport Ship</option>
+              <option value="firegalley">Fire Galley</option>
+              <option value="tradecog">Trade Cog</option>
+              <option value="demolitionraft">Demolition Raft</option>
+              <option value="galley">Galley</option>
+              <option value="cannongalleon">Cannon Galleon</option>
+              <option value="longboat">Longboat</option>
+              <option value="caravel">Caravel</option>
+              <option value="turtleship">Turtle Ship</option>
+            </optgroup>
+            <optgroup label="Market">
+              <option value="tradecart">Trade Cart</option>
+            </optgroup>
+            <optgroup label="Castle/Unique">
+              <option value="arambai">Arambai</option>
+              <option value="ballistaelephant">Ballista Elephant</option>
+              <option value="berserk">Berserk</option>
+              <option value="boyar">Boyar</option>
+              <option value="camelarcher">Camel Archer</option>
+              <option value="cataphract">Cataphract</option>
+              <option value="chukonu">Chu Ko Nu</option>
+              <option value="conquistador">Conquistador</option>
+              <option value="coustillier">Coustillier</option>
+              <option value="elephantarcher">Elephant Archer</option>
+              <option value="flamingcamel">Flaming Camel</option>
+              <option value="gbeto">Gbeto</option>
+              <option value="genoesecrossbowman">Genoese Crossbowman</option>
+              <option value="huskarl">Huskarl</option>
+              <option value="jaguar">Jaguar Warrior</option>
+              <option value="janissary">Janissary</option>
+              <option value="kamayuk">Kamayuk</option>
+              <option value="karambitwarrior">Karambit Warrior</option>
+              <option value="keshik">Keshik</option>
+              <option value="kipchak">Kipchak</option>
+              <option value="konnik">Konnik</option>
+              <option value="leitis">Leitis</option>
+              <option value="longbowman">Longbowman</option>
+              <option value="magyarhuszar">Magyar Huszar</option>
+              <option value="mameluke">Mameluke</option>
+              <option value="mangudai">Mangudai</option>
+              <option value="organgun">Organ Gun</option>
+              <option value="plumedarcher">Plumed Archer</option>
+              <option value="rattanarcher">Rattan Archer</option>
+              <option value="samurai">Samurai</option>
+              <option value="serjeant">Serjeant</option>
+              <option value="serjeantd">Serjeant (Donjon)</option>
+              <option value="shotelwarrior">Shotel Warrior</option>
+              <option value="tarkan">Tarkan</option>
+              <option value="teutonicknight">Teutonic Knight</option>
+              <option value="throwingaxeman">Throwing Axeman</option>
+              <option value="warelephant">War Elephant</option>
+              <option value="warwagon">War Wagon</option>
+              <option value="woadraider">Woad Raider</option>
+            </optgroup>
+          </select>
+        </td>
+        <td>
+          <input type="number" id="quant" onchange="onupdateunit(this.closest('tr').id)" value="1" min="0">
+        </td>
+        <td id="wood">0</td>
+        <td id="food">0</td>
+        <td id="gold">0</td>
+        <td>
+          <button type="button" name="remove" onclick="removeme(this.closest('tr').id)">Remove</button>
+        </td>
+      </tr>
+      </table>
+    </div>
+
+  </body>
+  <script type="text/javascript">
+    var costs = {
+      "farm": {wood: 60, food: 0, gold: 0, time: 562, tags:"", facility:"villager"},
+
+      "villager": {wood: 0, food: 50, gold: 0, time: 25, tags:"", facility: "towncenter"},
+      "flemishmilitia": {wood: 0, food: 60, gold: 25, time: 14, tags:"", facility: "towncenter"},
+
+      "militia": {wood: 0, food: 60, gold: 20, time: 21, tags:"", facility: "barracks"},
+      "spearman": {wood: 25, food: 35, gold: 0, time: 22, tags:"", facility: "barracks"},
+      "eagle": {wood: 0, food: 20, gold: 50, time: 35, tags:"", facility: "barracks"},
+      "condottiero": {wood: 0, food: 50, gold: 35, time: 18, tags:"", facility: "barracks"},
+      "huskarlb": {wood: 0, food: 80, gold: 40, time: 16, tags:"", facility: "barracks"},
+
+      "archer": {wood: 25, food: 0, gold: 45, time: 35, tags:"", facility: "archeryrange"},
+      "skirmisher": {wood: 35, food: 25, gold: 0, time: 22, tags:"", facility: "archeryrange"},
+      "cavalryarcher": {wood: 40, food: 0, gold: 60, time: 34, tags:"", facility: "archeryrange"},
+      "handcannoneer": {wood: 0, food: 45, gold: 50, time: 34, tags:"gunpowder", facility: "archeryrange"},
+      "genitour": {wood: 35, food: 50, gold: 0, time: 25, tags:"", facility: "archeryrange"},
+      "slinger": {wood: 0, food: 30, gold: 40, time: 25, tags:"", facility: "archeryrange"},
+
+      "scout": {wood: 0, food: 80, gold: 0, time: 30, tags:"", facility: "stable"},
+      "knight": {wood: 0, food: 60, gold: 75, time: 30, tags:"", facility: "stable"},
+      "camel": {wood: 0, food: 55, gold: 60, time: 22, tags:"", facility: "stable"},
+      "battleelephant": {wood: 0, food: 120, gold: 70, time: 24, tags:"", facility: "stable"},
+      "steppelancer": {wood: 0, food: 70, gold: 45, time: 24, tags:"", facility: "stable"},
+      "tarkanb": {wood: 0, food: 60, gold: 60, time: 26, tags:"", facility: "stable"},
+
+      "ram": {wood: 160, food: 0, gold: 75, time: 36, tags:"", facility: "siegeworkshop"},
+      "mangonel": {wood: 160, food: 0, gold: 135, time: 46, tags:"", facility: "siegeworkshop"},
+      "scorpion": {wood: 75, food: 0, gold: 75, time: 30, tags:"", facility: "siegeworkshop"},
+      "bombardcannon": {wood: 225, food: 0, gold: 225, time: 56, tags:"gunpowder", facility: "siegeworkshop"},
+      "siegetower": {wood: 200, food: 0, gold: 160, time: 36, tags:"", facility: "siegeworkshop"},
+
+      "fishingship": {wood: 75, food: 0, gold: 0, time: 40, tags:"", facility: "dock"},
+      "transportship": {wood: 125, food: 0, gold: 0, time: 46, tags:"", facility: "dock"},
+      "firegalley": {wood: 75, food: 0, gold: 45, time: 65, tags:"warship", facility: "dock"},
+      "tradecog": {wood: 100, food: 0, gold: 50, time: 36, tags:"", facility: "dock"},
+      "demolitionraft": {wood: 70, food: 0, gold: 50, time: 45, tags:"warship", facility: "dock"},
+      "galley": {wood: 90, food: 0, gold: 30, time: 60, tags:"warship", facility: "dock"},
+      "cannongalleon": {wood: 200, food: 0, gold: 150, time: 46, tags:"gunpowder warship", facility: "dock"},
+      "longboat": {wood: 100, food: 0, gold: 50, time: 25, tags:"warship", facility: "dock"},
+      "caravel": {wood: 90, food: 0, gold: 40, time: 36, tags:"warship", facility: "dock"},
+      "turtleship": {wood: 190, food: 0, gold: 180, time: 50, tags:"gunpowder warship", facility: "dock"},
+
+      "tradecart": {wood: 100, food: 0, gold: 50, time: 51, tags:"", facility: "market"},
+
+      "arambai": {wood: 75, food: 0, gold: 60, time: 21, tags:"", facility: "castle"},
+      "ballistaelephant": {wood: 0, food: 100, gold: 80, time: 25, tags:"", facility: "castle"},
+      "berserk": {wood: 0, food: 65, gold: 25, time: 14, tags:"", facility: "castle"},
+      "boyar": {wood: 0, food: 50, gold: 80, time: 15, tags:"", facility: "castle"},
+      "camelarcher": {wood: 50, food: 0, gold: 60, time: 25, tags:"", facility: "castle"},
+      "cataphract": {wood: 0, food: 70, gold: 75, time: 20, tags:"", facility: "castle"},
+      "chukonu": {wood: 40, food: 0, gold: 35, time: 16, tags:"", facility: "castle"},
+      "conquistador": {wood: 0, food: 60, gold: 70, time: 24, tags:"gunpowder", facility: "castle"},
+      "coustillier": {wood: 0, food: 55, gold: 55, time: 15, tags:"", facility: "castle"},
+      "elephantarcher": {wood: 0, food: 100, gold: 70, time: 25, tags:"", facility: "castle"},
+      "flamingcamel": {wood: 0, food: 75, gold: 30, time: 20, tags:"", facility: "castle"},
+      "gbeto": {wood: 0, food: 50, gold: 40, time: 17, tags:"", facility: "castle"},
+      "genoesecrossbowman": {wood: 45, food: 0, gold: 40, time: 18, tags:"", facility: "castle"},
+      "huskarl": {wood: 80, food: 0, gold: 40, time: 16, tags:"", facility: "castle"},
+      "jaguar": {wood: 0, food: 60, gold: 30, time: 11, tags:"", facility: "castle"},
+      "janissary": {wood: 0, food: 60, gold: 55, time: 21, tags:"gunpowder", facility: "castle"},
+      "kamayuk": {wood: 0, food: 60, gold: 30, time: 10, tags:"", facility: "castle"},
+      "karambitwarrior": {wood: 0, food: 25, gold: 15, time: 6, tags:"", facility: "castle"},
+      "keshik": {wood: 0, food: 60, gold: 40, time: 16, tags:"", facility: "castle"},
+      "kipchak": {wood: 0, food: 60, gold: 35, time: 20, tags:"", facility: "castle"},
+      "konnik": {wood: 0, food: 60, gold: 70, time: 19, tags:"", facility: "castle"},
+      "leitis": {wood: 0, food: 70, gold: 50, time: 20, tags:"", facility: "castle"},
+      "longbowman": {wood: 35, food: 0, gold: 40, time: 18, tags:"", facility: "castle"},
+      "leitise": {wood: 0, food: 70, gold: 50, time: 18, tags:"", facility: "castle"},
+      "leitise": {wood: 0, food: 70, gold: 50, time: 18, tags:"", facility: "castle"},
+      "magyarhuszar": {wood: 0, food: 80, gold: 10, time: 16, tags:"", facility: "castle"},
+      "mameluke": {wood: 0, food: 55, gold: 85, time: 23, tags:"", facility: "castle"},
+      "mangudai": {wood: 55, food: 0, gold: 65, time: 26, tags:"", facility: "castle"},
+      "organgun": {wood: 80, food: 0, gold: 70, time: 21, tags:"gunpowder", facility: "castle"},
+      "plumedarcher": {wood: 55, food: 0, gold: 55, time: 16, tags:"", facility: "castle"},
+      "rattanarcher": {wood: 50, food: 0, gold: 45, time: 16, tags:"", facility: "castle"},
+      "samurai": {wood: 0, food: 60, gold: 30, time: 9, tags:"", facility: "castle"},
+      "serjeantd": {wood: 0, food: 60, gold: 35, time: 20, tags:"", facility: "donjon"},
+      "serjeant": {wood: 0, food: 60, gold: 35, time: 12, tags:"", facility: "castle"},
+      "shotelwarrior": {wood: 0, food: 50, gold: 30, time: 8, tags:"", facility: "castle"},
+      "tarkan": {wood: 0, food: 60, gold: 60, time: 14, tags:"", facility: "castle"},
+      "teutonicknight": {wood: 0, food: 85, gold: 40, time: 12, tags:"", facility: "castle"},
+      "throwingaxeman": {wood: 0, food: 55, gold: 25, time: 17, tags:"", facility: "castle"},
+      "warelephant": {wood: 0, food: 200, gold: 75, time: 31, tags:"", facility: "castle"},
+      "warwagon": {wood: 115, food: 0, gold: 60, time: 21, tags:"", facility: "castle"},
+      "woadraider": {wood: 0, food: 65, gold: 25, time: 10, tags:"", facility: "castle"}
+    };
+
+    var civilizations = {
+      "Generic": {agerelevant: false, customupgrades: ""},
+      "Aztecs": {agerelevant: false, customupgrades: ""},
+      "Berbers": {agerelevant: true, customupgrades: "Kasbah"},
+      "Britons": {agerelevant: false, customupgrades: ""},
+      "Bulgarians": {agerelevant: false, customupgrades: ""},
+      "Burgundians": {agerelevant: false, customupgrades: "Elite Coustillier"},
+      "Burmese": {agerelevant: false, customupgrades: ""},
+      "Byzantines": {agerelevant: false, customupgrades: ""},
+      "Celts": {agerelevant: false, customupgrades: ""},
+      "Chinese": {agerelevant: false, customupgrades: "Elite Chu Ko Nu"},
+      "Cumans": {agerelevant: false, customupgrades: "Steppe Husbandry"},
+      "Ethiopians": {agerelevant: false, customupgrades: "Royal Heirs"},
+      "Franks": {agerelevant: false, customupgrades: "Chivalry"},
+      "Goths": {agerelevant: true, customupgrades: "Perfusion"},
+      "Huns": {agerelevant: true, customupgrades: ""},
+      "Incas": {agerelevant: false, customupgrades: ""},
+      "Indians": {agerelevant: true, customupgrades: "Sultans"},
+      "Italians": {agerelevant: false, customupgrades: "Silk Road-Elite Genoese Crossbowman"},
+      "Japanese": {agerelevant: false, customupgrades: ""},
+      "Khmer": {agerelevant: false, customupgrades: ""},
+      "Koreans": {agerelevant: false, customupgrades: ""},
+      "Lithuanians": {agerelevant: false, customupgrades: "Elite Leitis"},
+      "Magyars": {agerelevant: false, customupgrades: "Corvinian Army"},
+      "Malay": {agerelevant: false, customupgrades: "Forced Levy"},
+      "Malians": {agerelevant: false, customupgrades: ""},
+      "Mayans": {agerelevant: true, customupgrades: ""},
+      "Mongols": {agerelevant: false, customupgrades: ""},
+      "Persians": {agerelevant: true, customupgrades: "Kamandaran"},
+      "Portuguese": {agerelevant: false, customupgrades: ""},
+      "Saracens": {agerelevant: false, customupgrades: ""},
+      "Sicilians": {agerelevant: false, customupgrades: ""},
+      "Slavs": {agerelevant: false, customupgrades: ""},
+      "Spanish": {agerelevant: false, customupgrades: ""},
+      "Tatars": {agerelevant: false, customupgrades: "Elite Keshik"},
+      "Teutons": {agerelevant: false, customupgrades: ""},
+      "Turks": {agerelevant: false, customupgrades: ""},
+      "Vietnamese": {agerelevant: false, customupgrades: ""},
+      "Vikings": {agerelevant: true, customupgrades: ""}
+    }
+
+    var myciv = "";
+    var teamciv = "";
+
+    var myupgrades = "";
+
+    var actualcosts = {};
+    var actualvills = {};
+
+    function addunit()
+    {
+      var ur = document.getElementById('unitrow').cloneNode(true);
+      ur.id = "unit" + Math.floor(Math.random() * 19237812);
+      var ul = document.getElementById('unitlist');
+      ul.appendChild(ur);
+      onupdateunit(ur.id);
+    }
+
+    function removeme(eid)
+    {
+      var ul = document.getElementById('unitlist');
+      var el = document.getElementById(eid);
+
+      setunit(eid, "villager", 0);
+
+      delete actualcosts[eid];
+      delete actualvills[eid];
+      ul.removeChild(el);
+    }
+
+    function onupdateunit(eid)
+    {
+      var el = document.getElementById(eid);
+
+      var unit = el.querySelector("#units").value;
+      var quant = el.querySelector("#quant").value;
+      setunit(eid, unit, quant);
+    }
+
+    function setunit(eid, unit, quant)
+    {
+      if(!(eid in actualcosts))
+      {
+        actualcosts[eid] = {unit: "", quant: 0, wood: 0, food: 0, gold: 0, time: 0};
+        actualvills[eid] = {wood: 0, food: 0, gold: 0};
+      }
+      actualcosts[eid].unit = unit;
+      actualcosts[eid].quant = quant;
+      updatecosts(eid);
+    }
+
+    function updatecosts(eid)
+    {
+      var cost = costs[actualcosts[eid].unit];
+
+      var civbonus = getcivbonus(actualcosts[eid].unit);
+      console.log(civbonus);
+      actualcosts[eid].wood = cost.wood * actualcosts[eid].quant * civbonus.wood;
+      actualcosts[eid].food = cost.food * actualcosts[eid].quant * civbonus.food;
+      actualcosts[eid].gold = cost.gold * actualcosts[eid].quant * civbonus.gold;
+      actualcosts[eid].time = (cost.time+civbonus.timeabs) * civbonus.time;
+
+      updatevillagers(eid);
+      updatefarms();
+      updatetotal();
+    }
+
+    function updatefarms()
+    {
+      var cost = costs['farm'];
+
+      actualcosts['farm'] = {unit: "", quant: 0, wood: 0, food: 0, gold: 0, time: 0};
+      actualvills['farm'] = {wood: 0, food: 0, gold: 0};
+
+      actualcosts['farm'].unit = 'farm';
+
+      var tf = 0;
+      for (var key in actualvills) {
+        var value = actualvills[key];
+        tf += value.food;
+      }
+      actualcosts['farm'].quant = tf;
+
+      var civbonus = getcivbonus(actualcosts['farm'].unit);
+
+      actualcosts['farm'].wood = cost.wood * actualcosts['farm'].quant * civbonus.wood;
+      actualcosts['farm'].time = (cost.time+civbonus.timeabs) * civbonus.time;
+
+      actualvills['farm'].wood = Math.ceil(1 / (woodps() * actualcosts['farm'].time / actualcosts['farm'].wood));
+
+      document.getElementById('farm').querySelector("#wood").innerHTML = actualvills['farm'].wood;
+    }
+
+    function updateallcosts()
+    {
+      for (var key in actualcosts) {
+        if(key != "farm")
+          updatecosts(key);
+      }
+    }
+
+    function updatevillagers(eid)
+    {
+      if(eid == "farm")
+        return;
+
+      var el = document.getElementById(eid);
+      var wood = el.querySelector("#wood");
+      var food = el.querySelector("#food");
+      var gold = el.querySelector("#gold");
+
+      // forumla = 1 / (resourcepersecond * time / cost)    (ceiled)
+      actualvills[eid].wood = Math.ceil(1 / (woodps() * actualcosts[eid].time / actualcosts[eid].wood));
+      actualvills[eid].food = Math.ceil(1 / (foodps() * actualcosts[eid].time / actualcosts[eid].food));
+      actualvills[eid].gold = Math.ceil(1 / (goldps() * actualcosts[eid].time / actualcosts[eid].gold));
+
+      wood.innerHTML = actualvills[eid].wood;
+      food.innerHTML = actualvills[eid].food;
+      gold.innerHTML = actualvills[eid].gold;
+    }
+
+    function updatetotal()
+    {
+      var total = document.getElementById('total');
+      var wood = total.querySelector("#wood");
+      var food = total.querySelector("#food");
+      var gold = total.querySelector("#gold");
+
+      var tw=0;
+      var tf=0;
+      var tg=0;
+      for (var key in actualvills) {
+        var value = actualvills[key];
+        tw += value.wood;
+        tf += value.food;
+        tg += value.gold;
+      }
+      wood.innerHTML = tw;
+      food.innerHTML = tf;
+      gold.innerHTML = tg;
+    }
+
+    function getcivbonus(unit2)
+    {
+      console.log("Getting civilization bonus...");
+      var unit = costs[unit2];
+      var ret = {wood: 1.0, food: 1.0, gold: 1.0, time: 1.0, timeabs: 0.0};
+      if(myciv == "Aztecs")
+      {
+        if(unit.facility == "barracks" || unit.facility == "archeryrange" || unit.facility == "castle" || unit.facility == "siegeworkshop" || unit.tags.includes("warship"))
+        {
+          ret.time /= 1.11;
+        }
+      }
+      else if(myciv == "Berbers")
+      {
+        if(unit.facility == "stable")
+        {
+          var age = getage();
+          if(age > 1)
+          {
+            ret.wood *= 0.95 - (0.05 * age);
+            ret.food *= 0.95 - (0.05 * age);
+            ret.gold *= 0.95 - (0.05 * age);
+          }
+        }
+      }
+      else if(myciv == "Burgundians")
+      {
+        if(unit2 == "coustillier" && haveupgrade("Elite Coustillier"))
+        {
+          ret.timeabs -= 1;
+        }
+      }
+      else if(myciv == "Byzantines")
+      {
+        if(unit2 == "camel" || unit2 == "skirmisher" || unit2 == "spearman")
+        {
+          ret.wood *= 0.75;
+          ret.food *= 0.75;
+          ret.gold *= 0.75;
+        }
+      }
+      else if(myciv == "Chinese")
+      {
+        if(unit2 == "chukonu" && haveupgrade("Elite Chu Ko Nu"))
+        {
+          ret.timeabs -= 3;
+        }
+      }
+      else if(myciv == "Cumans")
+      {
+        if((unit2 == "scout" || unit2 == "steppelancer" || unit2 == "cavalryarcher") && haveupgrade("Steppe Husbandry"))
+        {
+          ret.time /= 1.5;
+        }
+      }
+      else if(myciv == "Ethiopians")
+      {
+        console.log("Ethiopians civ");
+        if(unit2 == "shotelwarrior" && haveupgrade("Royal Heirs"))
+        {
+          ret.time /= 2.0;
+        }
+      }
+      else if(myciv == "Franks")
+      {
+        if(unit.facility == "stable" && haveupgrade("Chivalry"))
+        {
+          ret.time /= 1.4;
+        }
+      }
+      else if(myciv == "Goths")
+      {
+        if(unit.facility == "barracks" && haveupgrade("Perfusion"))
+        {
+          ret.time /= 2.0;
+        }
+        if(unit.facility == "barracks" || unit2 == "huskarl")
+        {
+          var age = getage();
+          ret.wood *= 0.8 - (age * 0.05);
+          ret.food *= 0.8 - (age * 0.05);
+          ret.gold *= 0.8 - (age * 0.05);
+        }
+      }
+      else if(myciv == "Huns")
+      {
+        if(unit2 == "cavalryarcher")
+        {
+          if(age == 2)
+          {
+            ret.wood *= 0.9;
+            ret.food *= 0.9;
+            ret.gold *= 0.9;
+          }
+          else if(age == 3)
+          {
+            ret.wood *= 0.8;
+            ret.food *= 0.8;
+            ret.gold *= 0.8;
+          }
+        }
+      }
+      else if(myciv == "Indians")
+      {
+        if(unit2 == "villager")
+        {
+          var age = getage();
+          ret.food *= 0.9 - (age * 0.05);
+        }
+      }
+      else if(myciv == "Italians")
+      {
+        if(unit2 == "tradecart" || unit2 == "tradecog")
+        {
+          if(haveupgrade("Silk Road"))
+          {
+            ret.wood *= 0.5;
+            ret.food *= 0.5;
+            ret.gold *= 0.5;
+          }
+        }
+        else if(unit2 == "fishingship")
+        {
+          ret.wood *= 0.85;
+          ret.food *= 0.85;
+          ret.gold *= 0.85;
+        }
+        else if(unit2 == "genoesecrossbowman" && haveupgrade("Elite Genoese Crossbowman"))
+        {
+          ret.timeabs -= 4;
+        }
+      }
+      else if(myciv == "Koreans")
+      {
+        if(unit.facility == "barracks" || unit.facility == "archeryrange" || unit.facility == "castle" || unit.tags.includes("warship"))
+        {
+          ret.wood *= 0.8;
+        }
+      }
+      else if(myciv == "Lithuanians")
+      {
+        if(unit2 == "leitis" && haveupgrade("Elite Leitis"))
+        {
+          ret.timeabs -= 1;
+        }
+      }
+      else if(myciv == "Magyars")
+      {
+        if(unit2 == "scout")
+        {
+          ret.food *= 0.85;
+        }
+        else if(unit2 == "magyarhuszar")
+        {
+          if(haveupgrade("Corvinian Army"))
+          {
+            ret.gold = 0.0;
+          }
+        }
+      }
+      else if(myciv == "Malay")
+      {
+        if(unit2 == "battleelephant")
+        {
+          ret.wood *= 0.7;
+          ret.food *= 0.7;
+          ret.gold *= 0.7;
+        }
+        else if(unit2 == "militia" && haveupgrade("Forced Levy"))
+        {
+          ret.food *= 1.33;
+          ret.gold = 0.0;
+        }
+      }
+      else if(myciv == "Mayans")
+      {
+        if(unit2 == "archer")
+        {
+          if(age > 0)
+          {
+            ret.wood *= 1.0 - (age * 0.1);
+            ret.food *= 1.0 - (age * 0.1);
+            ret.gold *= 1.0 - (age * 0.1);
+          }
+        }
+      }
+      else if(myciv == "Persians")
+      {
+        if(unit.facility == "towncenter")
+        {
+          var age = getage();
+          if(age > 0)
+          {
+            ret.time /= 0.95 - (0.05 * age);
+          }
+        }
+        if(unit2 == "archer")
+        {
+          if(haveupgrade("Kamandaran"))
+          {
+            ret.wood *= 2.4;
+            ret.gold = 0.0;
+          }
+        }
+      }
+      else if(myciv == "Portuguese")
+      {
+        ret.good *= 0.8;
+      }
+      else if(myciv == "Slavs")
+      {
+        if(unit.facility == "siegeworkshop")
+        {
+          ret.wood *= 0.85;
+          ret.food *= 0.85;
+          ret.gold *= 0.85;
+        }
+      }
+      else if(myciv == "Tatars")
+      {
+        if(unit2 == "keshik" && haveupgrade("Elite Keshik"))
+        {
+          ret.timeabs -= 2;
+        }
+      }
+      else if(myciv == "Vikings")
+      {
+        if(unit.tags.includes("warship"))
+        {
+          var age = getage();
+          if(age > 0)
+          {
+            if(age == 3)
+            {
+              ret.wood *= 0.8;
+              ret.food *= 0.8;
+              ret.gold *= 0.8;
+            }
+            else {
+              ret.wood *= 0.85;
+              ret.food *= 0.85;
+              ret.gold *= 0.85;
+            }
+          }
+        }
+      }
+
+      if(haveteambonus("Britons"))
+      {
+        if(unit.facility == "archeryrange")
+        {
+          ret.time /= 1.2;
+        }
+      }
+      if(haveteambonus("Celts"))
+      {
+        if(unit.facility == "siegeworkshop")
+        {
+          ret.time /= 1.2;
+        }
+      }
+      if(haveteambonus("Goths"))
+      {
+        if(unit.facility == "barracks")
+        {
+          ret.time /= 1.2;
+        }
+      }
+      if(haveteambonus("Huns"))
+      {
+        if(unit.facility == "stable")
+        {
+          ret.time /= 1.2;
+        }
+      }
+      if(haveteambonus("Turks"))
+      {
+        if(unit.tags.includes("gunpowder"))
+        {
+          ret.time /= 1.2;
+        }
+      }
+
+      if((myciv == "Berbers" && haveupgrade("Kasbah")) || teamciv.includes("Berbers"))
+      {
+        if(unit.facility == "castle")
+        {
+          ret.time /= 1.25;
+        }
+      }
+
+      if(unit.facility == "barracks" || unit.facility == "archeryrange" || unit.facility == "stable" || unit.facility == "castle")
+      {
+        if(haveupgrade("conscription"))
+        {
+          ret.time /= 1.33;
+        }
+      }
+
+      if(unit2 == "farm")
+      {
+        if(haveupgrade("horsecollar"))
+        {
+          ret.timeabs += (75/foodps());
+        }
+        if(haveupgrade("heavyplow"))
+        {
+          ret.timeabs += 125/foodps();
+        }
+        if(haveupgrade("croprotation"))
+        {
+          ret.timeabs += 175/foodps();
+        }
+
+        if(myciv == "Teutons")
+        {
+          ret.wood *= 0.6;
+        }
+        else if(myciv == "Mayans")
+        {
+          ret.time *= 1.15;
+        }
+
+        if(haveteambonus("Chinese"))
+        {
+          ret.timeabs += 45/foodps();
+        }
+      }
+
+      return ret;
+    }
+
+    function updateteam()
+    {
+      teamciv = "";
+      for (var i = 2; i <= 7; i++) {
+        teamciv += document.getElementById('civ'+i).value;
+      }
+      updateciv();
+    }
+
+    function updateciv()
+    {
+      myciv = document.getElementById('civ').value;
+      var civupg = document.getElementById('civupgrades');
+      civupg.innerHTML = "";
+
+      var upgrades = civilizations[myciv].customupgrades.split("-");
+
+      var age = document.getElementById('agediv');
+      if(!civilizations[myciv].agerelevant)
+      {
+        age.style = "display: none;"
+      }
+      else {
+        age.style = "display: auto;"
+      }
+
+      if(civilizations[myciv].customupgrades.length > 0)
+      {
+        for (var i = 0; i < upgrades.length; i++) {
+          var checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+          checkbox.id = upgrades[i];
+          checkbox.setAttribute("onchange", "updateupgrades()");
+          checkbox.innerHTML = upgrades[i];
+
+          var span = document.createElement("span");
+          span.innerHTML = upgrades[i];
+
+          civupg.appendChild(checkbox);
+          civupg.appendChild(span);
+        }
+      }
+
+      updateupgrades();
+    }
+
+    function updateupgrades()
+    {
+      myupgrades = "";
+      var children = document.getElementById('civupgrades').children;
+      for (var i = 0; i < children.length; i++) {
+        var tableChild = children[i];
+        if(tableChild.type == "checkbox" && tableChild.checked)
+        {
+          myupgrades += tableChild.id + " ";
+        }
+      }
+      var children2 = document.getElementById('genupgrades').children;
+      for (var i = 0; i < children2.length; i++) {
+        var tableChild = children2[i];
+        if(tableChild.type == "checkbox" && tableChild.checked)
+        {
+          myupgrades += tableChild.id + " ";
+        }
+      }
+      updateallcosts();
+      console.log("Upgrades: " + myupgrades);
+    }
+
+    function webstart()
+    {
+      addunit();
+      updateciv();
+      updateteam();
+    }
+
+    function woodps()
+    {
+      var mult = 1.0;
+      if(myciv == "Celts")
+      {
+        mult *= 1.15;
+      }
+      if(haveupgrade("doublebitaxe"))
+      {
+        mult *= 1.2;
+      }
+      if(haveupgrade("bowsaw"))
+      {
+        mult *= 1.2;
+      }
+      if(haveupgrade("twomansaw"))
+      {
+        mult *= 1.1;
+      }
+      return 0.39 * mult;
+    }
+
+    function foodps()
+    {
+      var mult = 1.0;
+      if(myciv == "Slavs")
+      {
+        mult *= 1.1;
+      }
+      return 0.32 * mult;
+    }
+
+    function goldps()
+    {
+      var mult = 1.0;
+      if(myciv == "Turks")
+      {
+        mult *= 1.2;
+      }
+      if(haveupgrade("Sultans"))
+      {
+        mult *= 1.1;
+      }
+      if(haveupgrade("goldmining"))
+      {
+        mult *= 1.15;
+      }
+      if(haveupgrade("goldshaftmining"))
+      {
+        mult *= 1.15;
+      }
+      return 0.38 * mult;
+    }
+
+    function haveteambonus(civ)
+    {
+      return myciv.includes(civ) || teamciv.includes(civ);
+    }
+
+    function haveupgrade(upg)
+    {
+      return myupgrades.includes(upg);
+    }
+
+    function getage()
+    {
+      return document.getElementById('age').selectedIndex;
+    }
+
+  </script>
+</html>
