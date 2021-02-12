@@ -55,8 +55,16 @@
         margin: 0px 0px 8px 0px;
       }
 
+      .dark hr{
+        border-color: #ccc
+      }
+
       tr, thead{
         border-bottom: 1px solid #ccc;
+      }
+
+      .dark tr,.dark thead,.dark tfoot{
+        border-color: #444;
       }
 
       tfoot{
@@ -78,12 +86,36 @@
         font-size: 14px;
       }
 
-      h1{
-        font-size: 24px;
+      .title{
+        font-size: 36px;
+        text-align: center;
+        margin: auto;
+        width: 100%;
+        padding-top: 25px;
+        color: #222;
       }
 
       h2{
-        font-size: 20px;
+        font-size: 30px;
+        text-align: center;
+        margin: auto;
+        width: 100%;
+        color: #333;
+        padding-top: 30px;
+        padding-bottom: 40px;
+      }
+
+      .dark h2{
+        color: #ccc;
+      }
+
+      button{
+        font-size: 14px;
+        cursor:pointer;
+      }
+
+      .addrow{
+        padding: 5px;
       }
 
       input[type=number]{
@@ -93,7 +125,7 @@
       .tableholder
       {
         margin:auto;
-        width: calc(100% - 180px);
+        width: calc(100% - 185px);
         padding: 10px;
       }
 
@@ -119,14 +151,42 @@
         color: #fff;
       }
 
+      .dark{
+        background: #222;
+        color:#aaa;
+      }
+
+      .dark h1{
+        color: #ddd;
+      }
+
+      .dark input[type=number],.dark select{
+        background-color: #222;
+        color: #aaa;
+      }
+
+      .dark input[type=number]{
+        border: 1px solid #aaa;
+      }
+
+      .dark button{
+        background: rgb(57,57,57);
+        background: linear-gradient(180deg, rgba(57,57,57,1) 0%, rgba(23,23,23,1) 100%);
+        border: 1px solid #444;
+        color: #aaa;
+      }
+      .dark button:hover{
+        background: rgb(67,67,67);
+        background: linear-gradient(180deg, rgba(67,67,67,1) 0%, rgba(33,33,33,1) 100%);
+      }
+
     </style>
   </head>
   <body onload="webstart()">
     <div id="page">
-    <h1>Age of Empires II: Definitive Edition <span class="clickable" onclick="help()">(?)</span></h1>
-    <h2>Constant unit production calculator</h2>
+    <h1 class="title">Age of Empires II: Definitive Edition</h1>
+    <h2>Unit Production Calculator</h2>
     <span id="credit">@Zoaklen</span>
-    <hr>
     <div class="tableholder">
       <table>
         <colgroup>
@@ -138,11 +198,11 @@
           <col style="width: 15%">
         </colgroup>
         <thead>
-          <th>Unit <span class="clickable" onclick="alert('What unit you want to generate?')">(?)</span></th>
-          <th>Number of facilities <span class="clickable" onclick="alert('How many barracks/archery range/etc are you trying to keep busy at the same time?')">(?)</span></th>
-          <th>Wood <span class="clickable" onclick="alert('How many villagers on wood you are going to need.')">(?)</span></th>
-          <th>Food <span class="clickable" onclick="alert('How many villagers on farms you are going to need.')">(?)</span></th>
-          <th>Gold <span class="clickable" onclick="alert('How many villagers on gold mines you are going to need.')">(?)</span></th>
+          <th>Unit</th>
+          <th>Number of facilities</th>
+          <th>Wood</th>
+          <th>Food</th>
+          <th>Gold</th>
           <th>Remove</th>
         </thead>
         <tbody id="unitlist">
@@ -165,316 +225,319 @@
         </tfoot>
 
       </table>
-      <button type="button" name="add" onclick="addunit()">Add Row</button>
+      <button class="addrow" type="button" name="add" onclick="addunit()">Add Row</button>
       <br><br><br><br><br><br><br><br>
-      <label for="civ">Civilization:</label>
-      <select onchange="updateciv()" id="civ">
-        <option value="Generic">Generic</option>
-        <option value="Aztecs">Aztecs</option>
-        <option value="Berbers">Berbers</option>
-        <option value="Britons">Britons</option>
-        <option value="Bulgarians">Bulgarians</option>
-        <option value="Burgundians">Burgundians</option>
-        <option value="Burmese">Burmese</option>
-        <option value="Byzantines">Byzantines</option>
-        <option value="Celts">Celts</option>
-        <option value="Chinese">Chinese</option>
-        <option value="Cumans">Cumans</option>
-        <option value="Ethiopians">Ethiopians</option>
-        <option value="Franks">Franks</option>
-        <option value="Goths">Goths</option>
-        <option value="Huns">Huns</option>
-        <option value="Incas">Incas</option>
-        <option value="Indians">Indians</option>
-        <option value="Italians">Italians</option>
-        <option value="Japanese">Japanese</option>
-        <option value="Khmer">Khmer</option>
-        <option value="Koreans">Koreans</option>
-        <option value="Lithuanians">Lithuanians</option>
-        <option value="Magyars">Magyars</option>
-        <option value="Malay">Malay</option>
-        <option value="Malians">Malians</option>
-        <option value="Mayans">Mayans</option>
-        <option value="Mongols">Mongols</option>
-        <option value="Persians">Persians</option>
-        <option value="Portuguese">Portuguese</option>
-        <option value="Saracens">Saracens</option>
-        <option value="Sicilians">Sicilians</option>
-        <option value="Slavs">Slavs</option>
-        <option value="Spanish">Spanish</option>
-        <option value="Tatars">Tatars</option>
-        <option value="Teutons">Teutons</option>
-        <option value="Turks">Turks</option>
-        <option value="Vietnamese">Vietnamese</option>
-        <option value="Vikings">Vikings</option>
-      </select>
-      <div id="civupgrades"></div>
-      <div id="genupgrades">
-        <input type="checkbox" id="conscription" onchange="updateupgrades()"><span>Conscription</span>
-        <br>
-        <input type="checkbox" id="doublebitaxe" onchange="updateupgrades()"><span>Double-Bit Axe</span>
-        <input type="checkbox" id="bowsaw" onchange="updateupgrades()"><span>Bow Saw</span>
-        <input type="checkbox" id="twomansaw" onchange="updateupgrades()"><span>Two-Man Saw</span>
-        <br>
-        <input type="checkbox" id="horsecollar" onchange="updateupgrades()"><span>Horse Collar</span>
-        <input type="checkbox" id="heavyplow" onchange="updateupgrades()"><span>Heavy Plow</span>
-        <input type="checkbox" id="croprotation" onchange="updateupgrades()"><span>Crop Rotation</span>
-        <br>
-        <input type="checkbox" id="goldmining" onchange="updateupgrades()"><span>Gold Mining</span>
-        <input type="checkbox" id="goldshaftmining" onchange="updateupgrades()"><span>Gold Shaft Mining</span>
-      </div>
-      <div id="agediv">
-        <label for="age">Age:</label>
-        <select onchange="updateallcosts()" id="age">
-          <option value="dark">Dark Age</option>
-          <option value="feudal">Feudal Age</option>
-          <option value="castle">Castle Age</option>
-          <option value="imperial">Imperial Age</option>
+      <button type="button" name="button" onclick="var d = document.getElementById('optionsdiv');if(d.style.length > 0){ d.style = '' }else{ d.style='display:none;'}">Options</button>
+      <div id="optionsdiv" style="display:none;">
+        <label for="civ">Civilization:</label>
+        <select onchange="updateciv()" id="civ">
+          <option value="Generic">Generic</option>
+          <option value="Aztecs">Aztecs</option>
+          <option value="Berbers">Berbers</option>
+          <option value="Britons">Britons</option>
+          <option value="Bulgarians">Bulgarians</option>
+          <option value="Burgundians">Burgundians</option>
+          <option value="Burmese">Burmese</option>
+          <option value="Byzantines">Byzantines</option>
+          <option value="Celts">Celts</option>
+          <option value="Chinese">Chinese</option>
+          <option value="Cumans">Cumans</option>
+          <option value="Ethiopians">Ethiopians</option>
+          <option value="Franks">Franks</option>
+          <option value="Goths">Goths</option>
+          <option value="Huns">Huns</option>
+          <option value="Incas">Incas</option>
+          <option value="Indians">Indians</option>
+          <option value="Italians">Italians</option>
+          <option value="Japanese">Japanese</option>
+          <option value="Khmer">Khmer</option>
+          <option value="Koreans">Koreans</option>
+          <option value="Lithuanians">Lithuanians</option>
+          <option value="Magyars">Magyars</option>
+          <option value="Malay">Malay</option>
+          <option value="Malians">Malians</option>
+          <option value="Mayans">Mayans</option>
+          <option value="Mongols">Mongols</option>
+          <option value="Persians">Persians</option>
+          <option value="Portuguese">Portuguese</option>
+          <option value="Saracens">Saracens</option>
+          <option value="Sicilians">Sicilians</option>
+          <option value="Slavs">Slavs</option>
+          <option value="Spanish">Spanish</option>
+          <option value="Tatars">Tatars</option>
+          <option value="Teutons">Teutons</option>
+          <option value="Turks">Turks</option>
+          <option value="Vietnamese">Vietnamese</option>
+          <option value="Vikings">Vikings</option>
+        </select>
+        <div id="civupgrades"></div>
+        <div id="genupgrades">
+          <input type="checkbox" id="conscription" onchange="updateupgrades()"><span>Conscription</span>
+          <br>
+          <input type="checkbox" id="doublebitaxe" onchange="updateupgrades()"><span>Double-Bit Axe</span>
+          <input type="checkbox" id="bowsaw" onchange="updateupgrades()"><span>Bow Saw</span>
+          <input type="checkbox" id="twomansaw" onchange="updateupgrades()"><span>Two-Man Saw</span>
+          <br>
+          <input type="checkbox" id="horsecollar" onchange="updateupgrades()"><span>Horse Collar</span>
+          <input type="checkbox" id="heavyplow" onchange="updateupgrades()"><span>Heavy Plow</span>
+          <input type="checkbox" id="croprotation" onchange="updateupgrades()"><span>Crop Rotation</span>
+          <br>
+          <input type="checkbox" id="goldmining" onchange="updateupgrades()"><span>Gold Mining</span>
+          <input type="checkbox" id="goldshaftmining" onchange="updateupgrades()"><span>Gold Shaft Mining</span>
+        </div>
+        <div id="agediv">
+          <label for="age">Age:</label>
+          <select onchange="updateallcosts()" id="age">
+            <option value="dark">Dark Age</option>
+            <option value="feudal">Feudal Age</option>
+            <option value="castle">Castle Age</option>
+            <option value="imperial">Imperial Age</option>
+          </select>
+        </div>
+
+        <br><br>
+        <label for="civ2">Team Civilizations:</label>
+        <select onchange="updateteam()" id="civ2">
+          <option value="Generic"></option>
+          <option value="Aztecs">Aztecs</option>
+          <option value="Berbers">Berbers</option>
+          <option value="Britons">Britons</option>
+          <option value="Bulgarians">Bulgarians</option>
+          <option value="Burgundians">Burgundians</option>
+          <option value="Burmese">Burmese</option>
+          <option value="Byzantines">Byzantines</option>
+          <option value="Celts">Celts</option>
+          <option value="Chinese">Chinese</option>
+          <option value="Cumans">Cumans</option>
+          <option value="Ethiopians">Ethiopians</option>
+          <option value="Franks">Franks</option>
+          <option value="Goths">Goths</option>
+          <option value="Huns">Huns</option>
+          <option value="Incas">Incas</option>
+          <option value="Indians">Indians</option>
+          <option value="Italians">Italians</option>
+          <option value="Japanese">Japanese</option>
+          <option value="Khmer">Khmer</option>
+          <option value="Koreans">Koreans</option>
+          <option value="Lithuanians">Lithuanians</option>
+          <option value="Magyars">Magyars</option>
+          <option value="Malay">Malay</option>
+          <option value="Malians">Malians</option>
+          <option value="Mayans">Mayans</option>
+          <option value="Mongols">Mongols</option>
+          <option value="Persians">Persians</option>
+          <option value="Portuguese">Portuguese</option>
+          <option value="Saracens">Saracens</option>
+          <option value="Sicilians">Sicilians</option>
+          <option value="Slavs">Slavs</option>
+          <option value="Spanish">Spanish</option>
+          <option value="Tatars">Tatars</option>
+          <option value="Teutons">Teutons</option>
+          <option value="Turks">Turks</option>
+          <option value="Vietnamese">Vietnamese</option>
+          <option value="Vikings">Vikings</option>
+        </select>
+        <select onchange="updateteam()" id="civ3">
+          <option value="Generic"></option>
+          <option value="Aztecs">Aztecs</option>
+          <option value="Berbers">Berbers</option>
+          <option value="Britons">Britons</option>
+          <option value="Bulgarians">Bulgarians</option>
+          <option value="Burgundians">Burgundians</option>
+          <option value="Burmese">Burmese</option>
+          <option value="Byzantines">Byzantines</option>
+          <option value="Celts">Celts</option>
+          <option value="Chinese">Chinese</option>
+          <option value="Cumans">Cumans</option>
+          <option value="Ethiopians">Ethiopians</option>
+          <option value="Franks">Franks</option>
+          <option value="Goths">Goths</option>
+          <option value="Huns">Huns</option>
+          <option value="Incas">Incas</option>
+          <option value="Indians">Indians</option>
+          <option value="Italians">Italians</option>
+          <option value="Japanese">Japanese</option>
+          <option value="Khmer">Khmer</option>
+          <option value="Koreans">Koreans</option>
+          <option value="Lithuanians">Lithuanians</option>
+          <option value="Magyars">Magyars</option>
+          <option value="Malay">Malay</option>
+          <option value="Malians">Malians</option>
+          <option value="Mayans">Mayans</option>
+          <option value="Mongols">Mongols</option>
+          <option value="Persians">Persians</option>
+          <option value="Portuguese">Portuguese</option>
+          <option value="Saracens">Saracens</option>
+          <option value="Sicilians">Sicilians</option>
+          <option value="Slavs">Slavs</option>
+          <option value="Spanish">Spanish</option>
+          <option value="Tatars">Tatars</option>
+          <option value="Teutons">Teutons</option>
+          <option value="Turks">Turks</option>
+          <option value="Vietnamese">Vietnamese</option>
+          <option value="Vikings">Vikings</option>
+        </select>
+        <select onchange="updateteam()" id="civ4">
+          <option value="Generic"></option>
+          <option value="Aztecs">Aztecs</option>
+          <option value="Berbers">Berbers</option>
+          <option value="Britons">Britons</option>
+          <option value="Bulgarians">Bulgarians</option>
+          <option value="Burgundians">Burgundians</option>
+          <option value="Burmese">Burmese</option>
+          <option value="Byzantines">Byzantines</option>
+          <option value="Celts">Celts</option>
+          <option value="Chinese">Chinese</option>
+          <option value="Cumans">Cumans</option>
+          <option value="Ethiopians">Ethiopians</option>
+          <option value="Franks">Franks</option>
+          <option value="Goths">Goths</option>
+          <option value="Huns">Huns</option>
+          <option value="Incas">Incas</option>
+          <option value="Indians">Indians</option>
+          <option value="Italians">Italians</option>
+          <option value="Japanese">Japanese</option>
+          <option value="Khmer">Khmer</option>
+          <option value="Koreans">Koreans</option>
+          <option value="Lithuanians">Lithuanians</option>
+          <option value="Magyars">Magyars</option>
+          <option value="Malay">Malay</option>
+          <option value="Malians">Malians</option>
+          <option value="Mayans">Mayans</option>
+          <option value="Mongols">Mongols</option>
+          <option value="Persians">Persians</option>
+          <option value="Portuguese">Portuguese</option>
+          <option value="Saracens">Saracens</option>
+          <option value="Sicilians">Sicilians</option>
+          <option value="Slavs">Slavs</option>
+          <option value="Spanish">Spanish</option>
+          <option value="Tatars">Tatars</option>
+          <option value="Teutons">Teutons</option>
+          <option value="Turks">Turks</option>
+          <option value="Vietnamese">Vietnamese</option>
+          <option value="Vikings">Vikings</option>
+        </select>
+        <select onchange="updateteam()" id="civ5">
+          <option value="Generic"></option>
+          <option value="Aztecs">Aztecs</option>
+          <option value="Berbers">Berbers</option>
+          <option value="Britons">Britons</option>
+          <option value="Bulgarians">Bulgarians</option>
+          <option value="Burgundians">Burgundians</option>
+          <option value="Burmese">Burmese</option>
+          <option value="Byzantines">Byzantines</option>
+          <option value="Celts">Celts</option>
+          <option value="Chinese">Chinese</option>
+          <option value="Cumans">Cumans</option>
+          <option value="Ethiopians">Ethiopians</option>
+          <option value="Franks">Franks</option>
+          <option value="Goths">Goths</option>
+          <option value="Huns">Huns</option>
+          <option value="Incas">Incas</option>
+          <option value="Indians">Indians</option>
+          <option value="Italians">Italians</option>
+          <option value="Japanese">Japanese</option>
+          <option value="Khmer">Khmer</option>
+          <option value="Koreans">Koreans</option>
+          <option value="Lithuanians">Lithuanians</option>
+          <option value="Magyars">Magyars</option>
+          <option value="Malay">Malay</option>
+          <option value="Malians">Malians</option>
+          <option value="Mayans">Mayans</option>
+          <option value="Mongols">Mongols</option>
+          <option value="Persians">Persians</option>
+          <option value="Portuguese">Portuguese</option>
+          <option value="Saracens">Saracens</option>
+          <option value="Sicilians">Sicilians</option>
+          <option value="Slavs">Slavs</option>
+          <option value="Spanish">Spanish</option>
+          <option value="Tatars">Tatars</option>
+          <option value="Teutons">Teutons</option>
+          <option value="Turks">Turks</option>
+          <option value="Vietnamese">Vietnamese</option>
+          <option value="Vikings">Vikings</option>
+        </select>
+        <select onchange="updateteam()" id="civ6">
+          <option value="Generic"></option>
+          <option value="Aztecs">Aztecs</option>
+          <option value="Berbers">Berbers</option>
+          <option value="Britons">Britons</option>
+          <option value="Bulgarians">Bulgarians</option>
+          <option value="Burgundians">Burgundians</option>
+          <option value="Burmese">Burmese</option>
+          <option value="Byzantines">Byzantines</option>
+          <option value="Celts">Celts</option>
+          <option value="Chinese">Chinese</option>
+          <option value="Cumans">Cumans</option>
+          <option value="Ethiopians">Ethiopians</option>
+          <option value="Franks">Franks</option>
+          <option value="Goths">Goths</option>
+          <option value="Huns">Huns</option>
+          <option value="Incas">Incas</option>
+          <option value="Indians">Indians</option>
+          <option value="Italians">Italians</option>
+          <option value="Japanese">Japanese</option>
+          <option value="Khmer">Khmer</option>
+          <option value="Koreans">Koreans</option>
+          <option value="Lithuanians">Lithuanians</option>
+          <option value="Magyars">Magyars</option>
+          <option value="Malay">Malay</option>
+          <option value="Malians">Malians</option>
+          <option value="Mayans">Mayans</option>
+          <option value="Mongols">Mongols</option>
+          <option value="Persians">Persians</option>
+          <option value="Portuguese">Portuguese</option>
+          <option value="Saracens">Saracens</option>
+          <option value="Sicilians">Sicilians</option>
+          <option value="Slavs">Slavs</option>
+          <option value="Spanish">Spanish</option>
+          <option value="Tatars">Tatars</option>
+          <option value="Teutons">Teutons</option>
+          <option value="Turks">Turks</option>
+          <option value="Vietnamese">Vietnamese</option>
+          <option value="Vikings">Vikings</option>
+        </select>
+        <select onchange="updateteam()" id="civ7">
+          <option value="Generic"></option>
+          <option value="Aztecs">Aztecs</option>
+          <option value="Berbers">Berbers</option>
+          <option value="Britons">Britons</option>
+          <option value="Bulgarians">Bulgarians</option>
+          <option value="Burgundians">Burgundians</option>
+          <option value="Burmese">Burmese</option>
+          <option value="Byzantines">Byzantines</option>
+          <option value="Celts">Celts</option>
+          <option value="Chinese">Chinese</option>
+          <option value="Cumans">Cumans</option>
+          <option value="Ethiopians">Ethiopians</option>
+          <option value="Franks">Franks</option>
+          <option value="Goths">Goths</option>
+          <option value="Huns">Huns</option>
+          <option value="Incas">Incas</option>
+          <option value="Indians">Indians</option>
+          <option value="Italians">Italians</option>
+          <option value="Japanese">Japanese</option>
+          <option value="Khmer">Khmer</option>
+          <option value="Koreans">Koreans</option>
+          <option value="Lithuanians">Lithuanians</option>
+          <option value="Magyars">Magyars</option>
+          <option value="Malay">Malay</option>
+          <option value="Malians">Malians</option>
+          <option value="Mayans">Mayans</option>
+          <option value="Mongols">Mongols</option>
+          <option value="Persians">Persians</option>
+          <option value="Portuguese">Portuguese</option>
+          <option value="Saracens">Saracens</option>
+          <option value="Sicilians">Sicilians</option>
+          <option value="Slavs">Slavs</option>
+          <option value="Spanish">Spanish</option>
+          <option value="Tatars">Tatars</option>
+          <option value="Teutons">Teutons</option>
+          <option value="Turks">Turks</option>
+          <option value="Vietnamese">Vietnamese</option>
+          <option value="Vikings">Vikings</option>
         </select>
       </div>
-
-      <br><br>
-      <label for="civ2">Team Civilizations:</label>
-      <select onchange="updateteam()" id="civ2">
-        <option value="Generic"></option>
-        <option value="Aztecs">Aztecs</option>
-        <option value="Berbers">Berbers</option>
-        <option value="Britons">Britons</option>
-        <option value="Bulgarians">Bulgarians</option>
-        <option value="Burgundians">Burgundians</option>
-        <option value="Burmese">Burmese</option>
-        <option value="Byzantines">Byzantines</option>
-        <option value="Celts">Celts</option>
-        <option value="Chinese">Chinese</option>
-        <option value="Cumans">Cumans</option>
-        <option value="Ethiopians">Ethiopians</option>
-        <option value="Franks">Franks</option>
-        <option value="Goths">Goths</option>
-        <option value="Huns">Huns</option>
-        <option value="Incas">Incas</option>
-        <option value="Indians">Indians</option>
-        <option value="Italians">Italians</option>
-        <option value="Japanese">Japanese</option>
-        <option value="Khmer">Khmer</option>
-        <option value="Koreans">Koreans</option>
-        <option value="Lithuanians">Lithuanians</option>
-        <option value="Magyars">Magyars</option>
-        <option value="Malay">Malay</option>
-        <option value="Malians">Malians</option>
-        <option value="Mayans">Mayans</option>
-        <option value="Mongols">Mongols</option>
-        <option value="Persians">Persians</option>
-        <option value="Portuguese">Portuguese</option>
-        <option value="Saracens">Saracens</option>
-        <option value="Sicilians">Sicilians</option>
-        <option value="Slavs">Slavs</option>
-        <option value="Spanish">Spanish</option>
-        <option value="Tatars">Tatars</option>
-        <option value="Teutons">Teutons</option>
-        <option value="Turks">Turks</option>
-        <option value="Vietnamese">Vietnamese</option>
-        <option value="Vikings">Vikings</option>
-      </select>
-      <select onchange="updateteam()" id="civ3">
-        <option value="Generic"></option>
-        <option value="Aztecs">Aztecs</option>
-        <option value="Berbers">Berbers</option>
-        <option value="Britons">Britons</option>
-        <option value="Bulgarians">Bulgarians</option>
-        <option value="Burgundians">Burgundians</option>
-        <option value="Burmese">Burmese</option>
-        <option value="Byzantines">Byzantines</option>
-        <option value="Celts">Celts</option>
-        <option value="Chinese">Chinese</option>
-        <option value="Cumans">Cumans</option>
-        <option value="Ethiopians">Ethiopians</option>
-        <option value="Franks">Franks</option>
-        <option value="Goths">Goths</option>
-        <option value="Huns">Huns</option>
-        <option value="Incas">Incas</option>
-        <option value="Indians">Indians</option>
-        <option value="Italians">Italians</option>
-        <option value="Japanese">Japanese</option>
-        <option value="Khmer">Khmer</option>
-        <option value="Koreans">Koreans</option>
-        <option value="Lithuanians">Lithuanians</option>
-        <option value="Magyars">Magyars</option>
-        <option value="Malay">Malay</option>
-        <option value="Malians">Malians</option>
-        <option value="Mayans">Mayans</option>
-        <option value="Mongols">Mongols</option>
-        <option value="Persians">Persians</option>
-        <option value="Portuguese">Portuguese</option>
-        <option value="Saracens">Saracens</option>
-        <option value="Sicilians">Sicilians</option>
-        <option value="Slavs">Slavs</option>
-        <option value="Spanish">Spanish</option>
-        <option value="Tatars">Tatars</option>
-        <option value="Teutons">Teutons</option>
-        <option value="Turks">Turks</option>
-        <option value="Vietnamese">Vietnamese</option>
-        <option value="Vikings">Vikings</option>
-      </select>
-      <select onchange="updateteam()" id="civ4">
-        <option value="Generic"></option>
-        <option value="Aztecs">Aztecs</option>
-        <option value="Berbers">Berbers</option>
-        <option value="Britons">Britons</option>
-        <option value="Bulgarians">Bulgarians</option>
-        <option value="Burgundians">Burgundians</option>
-        <option value="Burmese">Burmese</option>
-        <option value="Byzantines">Byzantines</option>
-        <option value="Celts">Celts</option>
-        <option value="Chinese">Chinese</option>
-        <option value="Cumans">Cumans</option>
-        <option value="Ethiopians">Ethiopians</option>
-        <option value="Franks">Franks</option>
-        <option value="Goths">Goths</option>
-        <option value="Huns">Huns</option>
-        <option value="Incas">Incas</option>
-        <option value="Indians">Indians</option>
-        <option value="Italians">Italians</option>
-        <option value="Japanese">Japanese</option>
-        <option value="Khmer">Khmer</option>
-        <option value="Koreans">Koreans</option>
-        <option value="Lithuanians">Lithuanians</option>
-        <option value="Magyars">Magyars</option>
-        <option value="Malay">Malay</option>
-        <option value="Malians">Malians</option>
-        <option value="Mayans">Mayans</option>
-        <option value="Mongols">Mongols</option>
-        <option value="Persians">Persians</option>
-        <option value="Portuguese">Portuguese</option>
-        <option value="Saracens">Saracens</option>
-        <option value="Sicilians">Sicilians</option>
-        <option value="Slavs">Slavs</option>
-        <option value="Spanish">Spanish</option>
-        <option value="Tatars">Tatars</option>
-        <option value="Teutons">Teutons</option>
-        <option value="Turks">Turks</option>
-        <option value="Vietnamese">Vietnamese</option>
-        <option value="Vikings">Vikings</option>
-      </select>
-      <select onchange="updateteam()" id="civ5">
-        <option value="Generic"></option>
-        <option value="Aztecs">Aztecs</option>
-        <option value="Berbers">Berbers</option>
-        <option value="Britons">Britons</option>
-        <option value="Bulgarians">Bulgarians</option>
-        <option value="Burgundians">Burgundians</option>
-        <option value="Burmese">Burmese</option>
-        <option value="Byzantines">Byzantines</option>
-        <option value="Celts">Celts</option>
-        <option value="Chinese">Chinese</option>
-        <option value="Cumans">Cumans</option>
-        <option value="Ethiopians">Ethiopians</option>
-        <option value="Franks">Franks</option>
-        <option value="Goths">Goths</option>
-        <option value="Huns">Huns</option>
-        <option value="Incas">Incas</option>
-        <option value="Indians">Indians</option>
-        <option value="Italians">Italians</option>
-        <option value="Japanese">Japanese</option>
-        <option value="Khmer">Khmer</option>
-        <option value="Koreans">Koreans</option>
-        <option value="Lithuanians">Lithuanians</option>
-        <option value="Magyars">Magyars</option>
-        <option value="Malay">Malay</option>
-        <option value="Malians">Malians</option>
-        <option value="Mayans">Mayans</option>
-        <option value="Mongols">Mongols</option>
-        <option value="Persians">Persians</option>
-        <option value="Portuguese">Portuguese</option>
-        <option value="Saracens">Saracens</option>
-        <option value="Sicilians">Sicilians</option>
-        <option value="Slavs">Slavs</option>
-        <option value="Spanish">Spanish</option>
-        <option value="Tatars">Tatars</option>
-        <option value="Teutons">Teutons</option>
-        <option value="Turks">Turks</option>
-        <option value="Vietnamese">Vietnamese</option>
-        <option value="Vikings">Vikings</option>
-      </select>
-      <select onchange="updateteam()" id="civ6">
-        <option value="Generic"></option>
-        <option value="Aztecs">Aztecs</option>
-        <option value="Berbers">Berbers</option>
-        <option value="Britons">Britons</option>
-        <option value="Bulgarians">Bulgarians</option>
-        <option value="Burgundians">Burgundians</option>
-        <option value="Burmese">Burmese</option>
-        <option value="Byzantines">Byzantines</option>
-        <option value="Celts">Celts</option>
-        <option value="Chinese">Chinese</option>
-        <option value="Cumans">Cumans</option>
-        <option value="Ethiopians">Ethiopians</option>
-        <option value="Franks">Franks</option>
-        <option value="Goths">Goths</option>
-        <option value="Huns">Huns</option>
-        <option value="Incas">Incas</option>
-        <option value="Indians">Indians</option>
-        <option value="Italians">Italians</option>
-        <option value="Japanese">Japanese</option>
-        <option value="Khmer">Khmer</option>
-        <option value="Koreans">Koreans</option>
-        <option value="Lithuanians">Lithuanians</option>
-        <option value="Magyars">Magyars</option>
-        <option value="Malay">Malay</option>
-        <option value="Malians">Malians</option>
-        <option value="Mayans">Mayans</option>
-        <option value="Mongols">Mongols</option>
-        <option value="Persians">Persians</option>
-        <option value="Portuguese">Portuguese</option>
-        <option value="Saracens">Saracens</option>
-        <option value="Sicilians">Sicilians</option>
-        <option value="Slavs">Slavs</option>
-        <option value="Spanish">Spanish</option>
-        <option value="Tatars">Tatars</option>
-        <option value="Teutons">Teutons</option>
-        <option value="Turks">Turks</option>
-        <option value="Vietnamese">Vietnamese</option>
-        <option value="Vikings">Vikings</option>
-      </select>
-      <select onchange="updateteam()" id="civ7">
-        <option value="Generic"></option>
-        <option value="Aztecs">Aztecs</option>
-        <option value="Berbers">Berbers</option>
-        <option value="Britons">Britons</option>
-        <option value="Bulgarians">Bulgarians</option>
-        <option value="Burgundians">Burgundians</option>
-        <option value="Burmese">Burmese</option>
-        <option value="Byzantines">Byzantines</option>
-        <option value="Celts">Celts</option>
-        <option value="Chinese">Chinese</option>
-        <option value="Cumans">Cumans</option>
-        <option value="Ethiopians">Ethiopians</option>
-        <option value="Franks">Franks</option>
-        <option value="Goths">Goths</option>
-        <option value="Huns">Huns</option>
-        <option value="Incas">Incas</option>
-        <option value="Indians">Indians</option>
-        <option value="Italians">Italians</option>
-        <option value="Japanese">Japanese</option>
-        <option value="Khmer">Khmer</option>
-        <option value="Koreans">Koreans</option>
-        <option value="Lithuanians">Lithuanians</option>
-        <option value="Magyars">Magyars</option>
-        <option value="Malay">Malay</option>
-        <option value="Malians">Malians</option>
-        <option value="Mayans">Mayans</option>
-        <option value="Mongols">Mongols</option>
-        <option value="Persians">Persians</option>
-        <option value="Portuguese">Portuguese</option>
-        <option value="Saracens">Saracens</option>
-        <option value="Sicilians">Sicilians</option>
-        <option value="Slavs">Slavs</option>
-        <option value="Spanish">Spanish</option>
-        <option value="Tatars">Tatars</option>
-        <option value="Teutons">Teutons</option>
-        <option value="Turks">Turks</option>
-        <option value="Vietnamese">Vietnamese</option>
-        <option value="Vikings">Vikings</option>
-      </select>
     </div>
 
 
