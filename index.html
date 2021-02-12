@@ -103,7 +103,6 @@
 
       .clickable{
         color: blue;
-        text-decoration: underline;
         cursor: pointer;
       }
 
@@ -1282,6 +1281,10 @@
         document.getElementById('updatebutton').href = "index.html";
         document.getElementById('updatebutton').setAttribute('download', 'AOE2DE Unit Calculator - ' + cd.getDate() + " " + monthNames[cd.getMonth()] + " " + cd.getFullYear());
         return;
+      }
+      else if(window.location.href.includes("github.io"))
+      {
+        document.getElementById('updatebutton').style = "display: none;";
       }
       addunit();
       updateciv();
