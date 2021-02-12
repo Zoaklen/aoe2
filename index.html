@@ -1269,12 +1269,17 @@
 
     function webstart()
     {
+      const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+      ];
+
       if(window.location.href.includes("?update"))
       {
         document.getElementById('page').style = "display: none";
         document.getElementById('updatebutton').style = "bottom: 50%;right: 50%;";
         document.getElementById('updatebutton').href = "index.html";
-        document.getElementById('updatebutton').setAttribute('download', 'AOE2DE Unit Calculator - ' + Date.now());
+        document.getElementById('updatebutton').setAttribute('download', 'AOE2DE Unit Calculator - ' + cd.getDate() + " " + monthNames[cd.getMonth()] + " " + cd.getFullYear());
+        var cd = new Date();
         return;
       }
       addunit();
