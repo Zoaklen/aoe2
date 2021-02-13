@@ -637,6 +637,9 @@
               <option value="woadraider">Woad Raider</option>
             </optgroup>
           </select>
+          <div style="display: none" id="unitupg">
+            <input onchange="updateupgrades()" type="checkbox" name="upgradebox" id="" value=""><span id="upgradename">Upgrade Name</span>
+          </div>
         </td>
         <td>
           <input type="number" id="quant" onchange="onupdateunit(this.closest('tr').id)" value="1" min="0">
@@ -666,11 +669,11 @@
 
       "militia": {wood: 0, food: 60, gold: 20, time: 21, tags:"", facility: "barracks"},
       "spearman": {wood: 25, food: 35, gold: 0, time: 22, tags:"", facility: "barracks"},
-      "eagle": {wood: 0, food: 20, gold: 50, time: 35, tags:"", facility: "barracks"},
+      "eagle": {wood: 0, food: 20, gold: 50, time: 35, tags:"upgElite Eagle", facility: "barracks"},
       "condottiero": {wood: 0, food: 50, gold: 35, time: 18, tags:"", facility: "barracks"},
       "huskarlb": {wood: 0, food: 80, gold: 40, time: 16, tags:"", facility: "barracks"},
 
-      "archer": {wood: 25, food: 0, gold: 45, time: 35, tags:"", facility: "archeryrange"},
+      "archer": {wood: 25, food: 0, gold: 45, time: 35, tags:"upgCrossbow", facility: "archeryrange"},
       "skirmisher": {wood: 35, food: 25, gold: 0, time: 22, tags:"", facility: "archeryrange"},
       "cavalryarcher": {wood: 40, food: 0, gold: 60, time: 34, tags:"", facility: "archeryrange"},
       "handcannoneer": {wood: 0, food: 45, gold: 50, time: 34, tags:"gunpowder", facility: "archeryrange"},
@@ -822,6 +825,23 @@
 
       var unit = el.querySelector("#units").value;
       var quant = el.querySelector("#quant").value;
+
+      if(costs[unit].tags.includes("upg"))
+      {
+        var div = el.querySelector("#unitupg");
+        var upgname = costs[unit].tags.replace("upg", "");
+        div.style = "display: auto;";
+        if(div.querySelector("[name=upgradebox]").id != upgname)
+        {
+          div.querySelector("[name=upgradebox]").checked = false;
+        }
+        div.querySelector("[name=upgradebox]").id = upgname;
+        div.querySelector("#upgradename").innerHTML = upgname;
+      }
+      else
+      {
+        el.querySelector("#unitupg").style = "display: none;";
+      }
       setunit(eid, unit, quant);
     }
 
@@ -1227,6 +1247,16 @@
         }
       }
 
+      if(unit2 == 'archer' && haveupgrade('Crossbow'))
+      {
+        ret.timeabs -= 8;
+      }
+
+      if(unit2 == 'eagle' && haveupgrade('Elite Eagle'))
+      {
+        ret.timeabs -= 15;
+      }
+
       if(unit2 == "farm")
       {
         if(haveupgrade("horsecollar"))
@@ -1325,6 +1355,17 @@
           myupgrades += tableChild.id + " ";
         }
       }
+
+      var uupg = document.getElementsByName('upgradebox');
+      for (var variable in uupg) {
+        if (uupg.hasOwnProperty(variable)) {
+          if(uupg[variable].checked)
+          {
+            myupgrades += uupg[variable].id;
+          }
+        }
+      }
+
       updateallcosts();
       console.log("Upgrades: " + myupgrades);
     }
