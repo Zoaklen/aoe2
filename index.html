@@ -669,13 +669,13 @@
 
       "militia": {wood: 0, food: 60, gold: 20, time: 21, tags:"", facility: "barracks"},
       "spearman": {wood: 25, food: 35, gold: 0, time: 22, tags:"", facility: "barracks"},
-      "eagle": {wood: 0, food: 20, gold: 50, time: 35, tags:"upgElite Eagle", facility: "barracks"},
+      "eagle": {wood: 0, food: 20, gold: 50, time: 35, tags:"upgElite Eagle Warrior", facility: "barracks"},
       "condottiero": {wood: 0, food: 50, gold: 35, time: 18, tags:"", facility: "barracks"},
       "huskarlb": {wood: 0, food: 80, gold: 40, time: 16, tags:"", facility: "barracks"},
 
       "archer": {wood: 25, food: 0, gold: 45, time: 35, tags:"upgCrossbow", facility: "archeryrange"},
       "skirmisher": {wood: 35, food: 25, gold: 0, time: 22, tags:"", facility: "archeryrange"},
-      "cavalryarcher": {wood: 40, food: 0, gold: 60, time: 34, tags:"", facility: "archeryrange"},
+      "cavalryarcher": {wood: 40, food: 0, gold: 60, time: 34, tags:"upgHeavy Cavalry Archer", facility: "archeryrange"},
       "handcannoneer": {wood: 0, food: 45, gold: 50, time: 34, tags:"gunpowder", facility: "archeryrange"},
       "genitour": {wood: 35, food: 50, gold: 0, time: 25, tags:"", facility: "archeryrange"},
       "slinger": {wood: 0, food: 30, gold: 40, time: 25, tags:"", facility: "archeryrange"},
@@ -684,7 +684,7 @@
       "knight": {wood: 0, food: 60, gold: 75, time: 30, tags:"", facility: "stable"},
       "camel": {wood: 0, food: 55, gold: 60, time: 22, tags:"", facility: "stable"},
       "battleelephant": {wood: 0, food: 120, gold: 70, time: 24, tags:"", facility: "stable"},
-      "steppelancer": {wood: 0, food: 70, gold: 45, time: 24, tags:"", facility: "stable"},
+      "steppelancer": {wood: 0, food: 70, gold: 45, time: 24, tags:"upgElite Steppe Lancer", facility: "stable"},
       "tarkanb": {wood: 0, food: 60, gold: 60, time: 26, tags:"", facility: "stable"},
 
       "ram": {wood: 160, food: 0, gold: 75, time: 36, tags:"", facility: "siegeworkshop"},
@@ -698,7 +698,7 @@
       "firegalley": {wood: 75, food: 0, gold: 45, time: 65, tags:"warship", facility: "dock"},
       "tradecog": {wood: 100, food: 0, gold: 50, time: 36, tags:"", facility: "dock"},
       "demolitionraft": {wood: 70, food: 0, gold: 50, time: 45, tags:"warship", facility: "dock"},
-      "galley": {wood: 90, food: 0, gold: 30, time: 60, tags:"warship", facility: "dock"},
+      "galley": {wood: 90, food: 0, gold: 30, time: 36, tags:"warship", facility: "dock"},
       "cannongalleon": {wood: 200, food: 0, gold: 150, time: 46, tags:"gunpowder warship", facility: "dock"},
       "longboat": {wood: 100, food: 0, gold: 50, time: 25, tags:"warship", facility: "dock"},
       "caravel": {wood: 90, food: 0, gold: 40, time: 36, tags:"warship", facility: "dock"},
@@ -766,7 +766,7 @@
       "Goths": {agerelevant: true, customupgrades: "Perfusion"},
       "Huns": {agerelevant: true, customupgrades: ""},
       "Incas": {agerelevant: false, customupgrades: ""},
-      "Indians": {agerelevant: true, customupgrades: "Sultans"},
+      "Indians": {agerelevant: true, customupgrades: "Sultans-Imperial Camel Rider"},
       "Italians": {agerelevant: false, customupgrades: "Silk Road-Elite Genoese Crossbowman"},
       "Japanese": {agerelevant: false, customupgrades: ""},
       "Khmer": {agerelevant: false, customupgrades: ""},
@@ -1251,11 +1251,24 @@
       {
         ret.timeabs -= 8;
       }
-
-      if(unit2 == 'eagle' && haveupgrade('Elite Eagle'))
+      else if(unit2 == 'eagle' && haveupgrade('Elite Eagle Warrior'))
       {
         ret.timeabs -= 15;
       }
+      else if(unit2 == 'cavalryarcher' && haveupgrade('Heavy Cavalry Archer'))
+      {
+        ret.timeabs -= 7;
+      }
+      else if(unit2 == 'camel' && haveupgrade('Imperial Camel Rider'))
+      {
+        ret.timeabs -= 2;
+      }
+      else if(unit2 == 'steppelancer' && haveupgrade('Elite Steppe Lancer'))
+      {
+        ret.timeabs -= 4;
+      }
+
+
 
       if(unit2 == "farm")
       {
