@@ -151,6 +151,10 @@
         color: #fff;
       }
 
+      .dark #credit{
+        color: #222;
+      }
+
       .dark{
         background: #222;
         color:#aaa;
@@ -171,7 +175,7 @@
 
       .dark button{
         background: rgb(57,57,57);
-        background: linear-gradient(180deg, rgba(57,57,57,1) 0%, rgba(23,23,23,1) 100%);
+        background: linear-gradient(180deg, rgba(37,37,37,1) 0%, rgba(23,23,23,1) 100%);
         border: 1px solid #444;
         color: #aaa;
       }
@@ -948,7 +952,7 @@
 
     function getcivbonus(unit2)
     {
-      console.log("Getting civilization bonus...");
+      //console.log("Getting civilization bonus...");
       var unit = costs[unit2];
       var ret = {wood: 1.0, food: 1.0, gold: 1.0, time: 1.0, timeabs: 0.0};
       if(myciv == "Aztecs")
@@ -1139,7 +1143,7 @@
           var age = getage();
           if(age > 0)
           {
-            ret.time /= 0.95 - (0.05 * age);
+            ret.time /= 1.05 + (0.05 * age);
           }
         }
         if(unit2 == "archer")
@@ -1378,7 +1382,7 @@
       }
 
       updateallcosts();
-      console.log("Upgrades: " + myupgrades);
+      //console.log("Upgrades: " + myupgrades);
     }
 
     function webstart()
@@ -1396,6 +1400,10 @@
         document.getElementById('updatebutton').href = "index.html";
         document.getElementById('updatebutton').setAttribute('download', 'AOE2DE Unit Calculator - ' + cd.getDate() + " " + monthNames[cd.getMonth()] + " " + cd.getFullYear());
         return;
+      }
+      if(window.location.href.includes("&dark"))
+      {
+        document.body.setAttribute("class", "dark");
       }
       if(!window.location.href.includes("github.io"))
       {
